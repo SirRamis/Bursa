@@ -22,7 +22,7 @@ class Products(models.Model):
     class Meta:
         verbose_name = "Товары"
         verbose_name_plural = "Товары"
-        ordering = ['-time_create', 'title']
+        ordering = ['id']
 
 
 class Category(models.Model):

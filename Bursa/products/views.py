@@ -18,7 +18,7 @@ from products.utils import DataMixin, menu
  #       ]
 
 class ProductsHome(DataMixin, ListView):
-    paginate_by = 3
+    #paginate_by = 3
     model = Products
     template_name = 'products/index.html'
     context_object_name = 'posts'
