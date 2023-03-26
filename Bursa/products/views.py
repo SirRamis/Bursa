@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, FormView
 
 from .forms import *
 from .models import *
@@ -74,9 +74,23 @@ class AddPage(LoginRequiredMixin, DataMixin,CreateView):
  #       form = AddPostForm()
  #   return render(request, 'products/addpage.html', {'form': form, 'menu': menu, 'title': 'Добавление статьи'})
 
-def contact(request):
-    return render(request, 'products/contact.html', {'menu': menu, 'title': 'Мы с вами свяжемся'})
 
+#def contact(request):
+#    return render(request, 'products/contact.html', {'menu': menu, 'title': 'Мы с вами свяжемся'})
+
+class ContactFormView(DataMixin, FormView):
+    form_class = ContactForm
+    template_name = 'products/contact.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Обратная связь")
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return redirect('home')
 
 #def login(request):
 #    return HttpResponse("Авторизация")
